@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JO TV 224 — L'information au cœur de la Guinée</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════════════ */
+:root {
+  --orange:    #FF4500;
+  --orange2:   #FF6A2A;
+  --dark:      #07070D;
+  --dark2:     #0E0E1A;
+  --dark3:     #141420;
+  --panel:     #1A1A28;
+  --border:    rgba(255,69,0,0.2);
+  --text:      #E8E8F0;
+  --muted:     #8888AA;
+  --white:     #FFFFFF;
+  --red-gn:    #CE1126;
+  --gold-gn:   #FCD116;
+  --green-gn:  #009460;
+  --font-head: 'Oswald', sans-serif;
+  --font-body: 'Source Serif 4', serif;
+  --font-ui:   'Barlow', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+
+/* ═══════════════════════════════════════════════════
+   TOPBAR — FLAG STRIP
+═══════════════════════════════════════════════════ */
+.topbar {
+  height: 4px;
+  display: flex;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+}
+.topbar span { flex: 1; }
+.topbar .r { background: var(--red-gn); }
+.topbar .y { background: var(--gold-gn); }
+.topbar .g { background: var(--green-gn); }
+
+/* ═══════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 4px; left: 0; right: 0;
+  z-index: 999;
+  background: rgba(7,7,13,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-logo .logo-jo {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 2px;
+}
+.nav-logo .logo-tv {
+  background: var(--orange);
+  padding: 2px 8px;
+  font-family: var(--font-head);
+  font-size: 24px;
+  color: #fff;
+  font-weight: 700;
+}
+.nav-logo .logo-num {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  color: var(--muted);
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 14px; right: 14px;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--orange); }
+.nav-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--orange);
+  padding: 7px 16px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.nav-live:hover { background: var(--orange2); }
+.nav-live .dot {
+  width: 7px; height: 7px;
+  background: #fff;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { width: 24px; height: 2px; background: var(--text); transition: 0.3s; }
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+#accueil {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 68px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 60%, rgba(255,69,0,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 30%, rgba(255,69,0,0.06) 0%, transparent 50%),
+    linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,69,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,69,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: linear-gradient(180deg, transparent 0%, black 40%, black 80%, transparent 100%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 24px 60px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 60px;
+  align-items: end;
+  width: 100%;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 24px;
+}
+.hero-badge .dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: blink 1s infinite; }
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+.hero-title .accent { color: var(--orange); }
+.hero-title .line2 { display: block; color: var(--muted); font-size: 0.55em; font-weight: 400; letter-spacing: 6px; text-transform: uppercase; margin-top: 12px; font-family: var(--font-ui); }
+.hero-desc {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 560px;
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+.hero-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--orange);
+  color: #fff;
+  padding: 14px 32px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-primary:hover { background: var(--orange2); transform: translateY(-2px); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  padding: 14px 32px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: all 0.2s;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.stat { }
+.stat-num {
+  font-family: var(--font-head);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--orange);
+}
+.stat-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero-side {
+  position: relative;
+}
+.breaking-news {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.breaking-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.breaking-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+.breaking-item {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.breaking-item:last-child { border-bottom: none; padding-bottom: 0; }
+.breaking-item:hover { color: var(--orange); }
+.hero-ticker {
+  background: var(--orange);
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker-inner {
+  display: inline-flex;
+  animation: ticker 30s linear infinite;
+}
+.ticker-inner span {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fff;
+  padding: 0 40px;
+}
+.ticker-inner span::before { content: '◆  '; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ═══════════════════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════════════════ */
+.section {
+  padding: 100px 0;
+  position: relative;
+}
+.section-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.section-tag {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.view-all {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  border-bottom: 1px solid var(--orange);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+.view-all:hover { opacity: 0.7; }
+
+/* ═══════════════════════════════════════════════════
+   ACTUALITÉS
+═══════════════════════════════════════════════════ */
+#actualites { background: var(--dark2); }
+.news-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px;
+}
+.news-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--panel);
+}
+.news-card-img {
+  width: 100%;
+  padding-bottom: 60%;
+  position: relative;
+  overflow: hidden;
+}
+.news-card-img .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+.news-card.featured { grid-row: 1 / 3; }
+.news-card.featured .news-card-img { padding-bottom: 75%; }
+.news-card-body {
+  padding: 20px;
+}
+.news-cat {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+.news-title {
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+.news-card.featured .news-title { font-size: 26px; }
+.news-card:hover .news-title { color: var(--orange); }
+.news-meta {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  gap: 12px;
+}
+.news-excerpt {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.news-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.news-card:hover::before { transform: scaleX(1); }
+
+/* CATEGORIES */
+.cat-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.cat-tab {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cat-tab:hover, .cat-tab.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+}
+
+/* LISTE ARTICLES */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 40px;
+}
+.news-row {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.news-row:hover { background: rgba(255,69,0,0.04); }
+.news-row-thumb {
+  width: 100px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: var(--panel);
+  flex-shrink: 0;
+}
+.news-row-content {}
+.news-row-title {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  transition: color 0.2s;
+}
+.news-row:hover .news-row-title { color: var(--orange); }
+.news-row-meta {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--muted);
+}
+.news-row-arrow {
+  font-size: 18px;
+  color: var(--orange);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.news-row:hover .news-row-arrow { opacity: 1; transform: translateX(4px); }
+
+/* ═══════════════════════════════════════════════════
+   VIDÉOS
+═══════════════════════════════════════════════════ */
+#videos { background: var(--dark3); }
+.video-hero {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.video-main {
+  position: relative;
+  background: var(--panel);
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  cursor: pointer;
+}
+.video-main-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+.video-main-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1a28, #07070d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+}
+.play-btn {
+  position: relative;
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.play-btn::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 2px solid rgba(255,69,0,0.3);
+  border-radius: 50%;
+  animation: ripple 2s infinite;
+}
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.video-main:hover .play-btn { transform: scale(1.1); background: var(--orange2); }
+.video-main-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  z-index: 2;
+}
+.video-main-title {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #E30000;
+  padding: 4px 10px;
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.video-playlist {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vp-item {
+  background: var(--panel);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  align-items: center;
+}
+.vp-item:hover { background: rgba(255,69,0,0.08); }
+.vp-thumb {
+  width: 80px;
+  height: 54px;
+  background: var(--dark3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  position: relative;
+}
+.vp-duration {
+  position: absolute;
+  bottom: 3px; right: 3px;
+  background: rgba(0,0,0,0.8);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  padding: 1px 4px;
+  color: #fff;
+}
+.vp-title {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  transition: color 0.2s;
+}
+.vp-item:hover .vp-title { color: var(--orange); }
+.vp-meta {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: 2px;
+}
+.vg-card {
+  background: var(--panel);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.vg-thumb {
+  padding-bottom: 56.25%;
+  position: relative;
+  background: var(--dark3);
+}
+.vg-thumb-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  transition: transform 0.3s;
+}
+.vg-card:hover .vg-thumb-inner { transform: scale(1.05); }
+.vg-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.vg-card:hover .vg-play { opacity: 1; }
+.vg-play-icon {
+  width: 44px; height: 44px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #fff;
+}
+.vg-body { padding: 14px; }
+.vg-title {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  transition: color 0.2s;
+}
+.vg-card:hover .vg-title { color: var(--orange); }
+.vg-meta { font-family: var(--font-ui); font-size: 10px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════
+   À PROPOS
+═══════════════════════════════════════════════════ */
+#apropos { background: var(--dark); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-visual {
+  position: relative;
+}
+.about-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 48px;
+  position: relative;
+}
+.about-card::before {
+  content: 'JO TV 224';
+  position: absolute;
+  top: -1px; left: 32px;
+  background: var(--orange);
+  padding: 4px 16px;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+}
+.about-logo-big {
+  font-family: var(--font-head);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.about-logo-big .jo { color: var(--orange); }
+.about-logo-big .tv { background: var(--orange); padding: 2px 12px; color: #fff; }
+.about-logo-big .num { color: var(--text); }
+.about-tagline {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.flag-mini {
+  display: flex;
+  height: 6px;
+  width: 80px;
+  margin-bottom: 32px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.flag-mini span { flex: 1; }
+.flag-mini .r { background: var(--red-gn); }
+.flag-mini .y { background: var(--gold-gn); }
+.flag-mini .g { background: var(--green-gn); }
+.about-values {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.about-val {
+  border: 1px solid var(--border);
+  padding: 14px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.about-val:hover { border-color: var(--orange); color: var(--orange); }
+.about-val span { font-size: 18px; }
+.about-text { }
+.about-lead {
+  font-size: 22px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+.about-lead strong { color: var(--orange); font-weight: 600; }
+.about-body {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.about-mission {
+  background: var(--panel);
+  border-left: 3px solid var(--orange);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  font-style: italic;
+  color: var(--text);
+  font-size: 15px;
+}
+/* ÉQUIPE */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+.team-card {
+  background: var(--panel);
+  border: 1px solid transparent;
+  padding: 24px;
+  text-align: center;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.team-card:hover { border-color: var(--orange); }
+.team-avatar {
+  width: 80px; height: 80px;
+  background: var(--dark3);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  border: 2px solid var(--border);
+  transition: border-color 0.2s;
+}
+.team-card:hover .team-avatar { border-color: var(--orange); }
+.team-name {
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.team-role {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+/* ═══════════════════════════════════════════════════
+   PUBLICITÉ / PARTENARIATS
+═══════════════════════════════════════════════════ */
+#publicite { background: var(--dark2); }
+.pub-hero {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+.pub-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,69,0,0.06), transparent);
+  pointer-events: none;
+}
+.pub-hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  position: relative;
+}
+.pub-hero-title span { color: var(--orange); }
+.pub-hero-sub {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+.pub-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.pub-stat-num {
+  font-family: var(--font-head);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--orange);
+}
+.pub-stat-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pub-offers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.pub-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 32px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.pub-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+.pub-card.featured { border-color: var(--orange); }
+.pub-card.featured::before {
+  content: 'POPULAIRE';
+  position: absolute;
+  top: -1px; right: 20px;
+  background: var(--orange);
+  padding: 4px 12px;
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+}
+.pub-card-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+.pub-card-title {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.pub-card-desc {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.pub-card-features {
+  list-style: none;
+  margin-bottom: 28px;
+}
+.pub-card-features li {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pub-card-features li::before {
+  content: '→';
+  color: var(--orange);
+  font-size: 12px;
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════ */
+#contact { background: var(--dark3); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 60px;
+}
+.contact-info {}
+.contact-info-title {
+  font-family: var(--font-head);
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.contact-info-desc {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.contact-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.contact-item-icon {
+  width: 44px; height: 44px;
+  background: rgba(255,69,0,0.1);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.contact-item-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+.contact-item-value {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text);
+}
+.social-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 32px;
+}
+.social-btn {
+  width: 44px; height: 44px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.social-btn:hover { background: var(--orange); border-color: var(--orange); }
+.contact-form {}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: block;
+}
+.form-input {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 13px 16px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.form-input:focus { border-color: var(--orange); }
+textarea.form-input { resize: vertical; min-height: 140px; }
+.form-select {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 13px 16px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer {
+  background: var(--dark);
+  border-top: 1px solid var(--border);
+  padding: 64px 0 0;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.footer-brand-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.footer-brand-name .jo { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--orange); }
+.footer-brand-name .tv { background: var(--orange); padding: 2px 7px; font-family: var(--font-head); font-size: 20px; color: #fff; font-weight: 700; }
+.footer-brand-name .num { font-family: var(--font-head); font-size: 24px; font-weight: 700; }
+.footer-desc {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  max-width: 280px;
+}
+.footer-flag {
+  display: flex;
+  height: 4px;
+  width: 60px;
+}
+.footer-flag span { flex: 1; }
+.footer-flag .r { background: var(--red-gn); }
+.footer-flag .y { background: var(--gold-gn); }
+.footer-flag .g { background: var(--green-gn); }
+.footer-col-title {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-links a {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--muted);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.footer-links a:hover { color: var(--orange); }
+.footer-links a::before { content: '›'; color: var(--orange); }
+.footer-bottom {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer-copy span { color: var(--orange); }
+.footer-bottom-flag {
+  display: flex;
+  height: 3px;
+  width: 40px;
+}
+.footer-bottom-flag span { flex: 1; }
+.footer-bottom-flag .r { background: var(--red-gn); }
+.footer-bottom-flag .y { background: var(--gold-gn); }
+.footer-bottom-flag .g { background: var(--green-gn); }
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .news-grid { grid-template-columns: 1fr 1fr; }
+  .news-card.featured { grid-column: 1/-1; grid-row: 1; }
+  .video-hero { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2,1fr); }
+  .video-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+  .pub-offers { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links, .nav-live { display: none; }
+  .hamburger { display: flex; }
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-side { display: none; }
+  .news-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .pub-stats { flex-direction: column; align-items: center; gap: 24px; }
+  .pub-hero { padding: 32px 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- FLAG TOPBAR -->
+<div class="topbar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <span class="logo-jo">JO</span>
+      <span class="logo-tv">TV</span>
+      <span class="logo-num">224</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#accueil" class="active">Accueil</a></li>
+      <li><a href="#actualites">Actualités</a></li>
+      <li><a href="#videos">Vidéos</a></li>
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#publicite">Partenariats</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-live"><span class="dot"></span> Direct</div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="accueil">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-ticker">
+    <div class="ticker-inner">
+      <span>Actualités Guinée</span>
+      <span>Élections présidentielles : dernières nouvelles</span>
+      <span>Économie africaine en hausse</span>
+      <span>Sport : Syli Nationale en action</span>
+      <span>Culture : Festival de Conakry</span>
+      <span>JO TV 224 — Votre média de référence</span>
+      <span>Actualités Guinée</span>
+      <span>Élections présidentielles : dernières nouvelles</span>
+      <span>Économie africaine en hausse</span>
+      <span>Sport : Syli Nationale en action</span>
+      <span>Culture : Festival de Conakry</span>
+      <span>JO TV 224 — Votre média de référence</span>
+    </div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="dot"></span> Média Guinéen Indépendant</div>
+      <h1 class="hero-title">
+        <span class="accent">L'information</span><br>
+        au cœur de<br>
+        la Guinée
+        <span class="line2">JO TV 224 · Conakry · +224</span>
+      </h1>
+      <p class="hero-desc">Actualités fiables, reportages exclusifs et émissions en direct. JO TV 224 couvre toute l'actualité nationale et internationale avec rigueur et passion.</p>
+      <div class="hero-btns">
+        <a href="#videos" class="btn-primary">▶ Regarder en Direct</a>
+        <a href="#actualites" class="btn-secondary">📰 Dernières Nouvelles</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Abonnés</div></div>
+        <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Information</div></div>
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Reportages</div></div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <div class="breaking-news">
+        <div class="breaking-label">À la Une</div>
+        <div class="breaking-item">🔴 Sommet de l'UA : les dirigeants africains se réunissent à Addis-Abeba</div>
+        <div class="breaking-item">⚽ Football : La Guinée se qualifie pour la CAN 2025</div>
+        <div class="breaking-item">💼 Économie : Hausse des investissements miniers en Guinée</div>
+        <div class="breaking-item">🎓 Éducation : Nouveau programme universitaire lancé à Conakry</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACTUALITÉS ═══ -->
+<section id="actualites" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div>
+        <div class="section-tag">📰 Dernières nouvelles</div>
+        <h2 class="section-title">Actualités</h2>
+      </div>
+      <span class="view-all">Tout voir →</span>
+    </div>
+    <div class="cat-tabs fade-in">
+      <div class="cat-tab active">Tout</div>
+      <div class="cat-tab">Politique</div>
+      <div class="cat-tab">Économie</div>
+      <div class="cat-tab">Sport</div>
+      <div class="cat-tab">Culture</div>
+      <div class="cat-tab">International</div>
+      <div class="cat-tab">Société</div>
+    </div>
+    <div class="news-grid fade-in">
+      <div class="news-card featured">
+        <div class="news-card-img">
+          <div class="placeholder" style="background:linear-gradient(135deg,#1a1a28,#0e0e1a);">🏛️</div>
+        </div>
+        <div class="news-card-body">
+          <div class="news-cat">Politique</div>
+          <h3 class="news-title">Le gouvernement annonce un plan de développement économique ambitieux pour la Guinée 2025-2030</h3>
+          <p class="news-excerpt">Le Premier ministre a présenté ce mercredi un plan stratégique de développement couvrant les secteurs minier, agricole et numérique, avec des investissements estimés à plusieurs milliards de francs guinéens...</p>
+          <div class="news-meta"><span>📅 27 Février 2025</span><span>✍️ Rédaction JO TV 224</span><span>⏱ 5 min de lecture</span></div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <div class="placeholder" style="background:linear-gradient(135deg,#1a2820,#0e1a10);">⚽</div>
+        </div>
+        <div class="news-card-body">
+          <div class="news-cat">Sport</div>
+          <h3 class="news-title">Syli Nationale : victoire historique contre le Sénégal</h3>
+          <div class="news-meta"><span>📅 26 Fév 2025</span><span>⏱ 3 min</span></div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <div class="placeholder" style="background:linear-gradient(135deg,#1a1820,#150e1a);">🎭</div>
+        </div>
+        <div class="news-card-body">
+          <div class="news-cat">Culture</div>
+          <h3 class="news-title">Le Festival de Conakry 2025 attire 50 000 visiteurs</h3>
+          <div class="news-meta"><span>📅 25 Fév 2025</span><span>⏱ 4 min</span></div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-card-img">
+          <div class="placeholder" style="background:linear-gradient(135deg,#1a1520,#0e0e18);">💰</div>
+        </div>
+        <div class="news-card-body">
+          <div class="news-cat">Économie</div>
+          <h3 class="news-title">Mines : record d'exportations de bauxite au premier trimestre</h3>
+          <div class="news-meta"><span>📅 24 Fév 2025</span><span>⏱ 6 min</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-list fade-in">
+      <div class="news-row">
+        <div class="news-row-thumb">🌍</div>
+        <div class="news-row-content">
+          <div class="news-row-title">Sommet africain : la Guinée signe 3 accords de coopération</div>
+          <div class="news-row-meta"><span class="news-cat" style="display:inline">International</span> · 27 Fév 2025 · 4 min de lecture</div>
+        </div>
+        <span class="news-row-arrow">→</span>
+      </div>
+      <div class="news-row">
+        <div class="news-row-thumb">🎓</div>
+        <div class="news-row-content">
+          <div class="news-row-title">Éducation : ouverture de 50 nouvelles salles de classe en région</div>
+          <div class="news-row-meta"><span class="news-cat" style="display:inline">Société</span> · 26 Fév 2025 · 3 min de lecture</div>
+        </div>
+        <span class="news-row-arrow">→</span>
+      </div>
+      <div class="news-row">
+        <div class="news-row-thumb">🏥</div>
+        <div class="news-row-content">
+          <div class="news-row-title">Santé : inauguration d'un nouveau centre hospitalier à Kindia</div>
+          <div class="news-row-meta"><span class="news-cat" style="display:inline">Société</span> · 25 Fév 2025 · 5 min de lecture</div>
+        </div>
+        <span class="news-row-arrow">→</span>
+      </div>
+      <div class="news-row">
+        <div class="news-row-thumb">🌱</div>
+        <div class="news-row-content">
+          <div class="news-row-title">Agriculture : programme de reforestation lancé dans la région de Faranah</div>
+          <div class="news-row-meta"><span class="news-cat" style="display:inline">Économie</span> · 24 Fév 2025 · 4 min de lecture</div>
+        </div>
+        <span class="news-row-arrow">→</span>
+      </div>
+      <div class="news-row">
+        <div class="news-row-thumb">🔌</div>
+        <div class="news-row-content">
+          <div class="news-row-title">Énergie : le projet hydroélectrique de Souapiti augmente sa capacité</div>
+          <div class="news-row-meta"><span class="news-cat" style="display:inline">Économie</span> · 23 Fév 2025 · 6 min de lecture</div>
+        </div>
+        <span class="news-row-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VIDÉOS ═══ -->
+<section id="videos" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div>
+        <div class="section-tag">📡 Diffusion</div>
+        <h2 class="section-title">Vidéos & Direct TV</h2>
+      </div>
+      <span class="view-all">Toutes les vidéos →</span>
+    </div>
+    <div class="video-hero fade-in">
+      <div class="video-main">
+        <div class="video-main-bg">📺</div>
+        <div class="video-main-inner">
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="video-main-info">
+          <div class="live-badge"><span style="width:6px;height:6px;background:#fff;border-radius:50%;display:inline-block;animation:blink 1s infinite;margin-right:4px;"></span> EN DIRECT</div>
+          <div class="video-main-title">JO TV 224 — Émission principale du soir : Journal de 20h</div>
+          <div class="news-meta"><span>📅 Ce soir 20h00</span><span>👁 2 450 spectateurs</span></div>
+        </div>
+      </div>
+      <div class="video-playlist">
+        <div style="background:var(--dark3);padding:12px 14px;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);">Prochains programmes</div>
+        <div class="vp-item">
+          <div class="vp-thumb">🎙️<div class="vp-duration">45:00</div></div>
+          <div><div class="vp-title">Débat politique : le gouvernement face aux citoyens</div><div class="vp-meta">Ce soir · 21h30</div></div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-thumb">⚽<div class="vp-duration">90:00</div></div>
+          <div><div class="vp-title">Match en direct : Syli Nationale vs Côte d'Ivoire</div><div class="vp-meta">Demain · 18h00</div></div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-thumb">🎵<div class="vp-duration">60:00</div></div>
+          <div><div class="vp-title">JO Music Show : les artistes guinéens à l'honneur</div><div class="vp-meta">Samedi · 20h00</div></div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-thumb">💼<div class="vp-duration">30:00</div></div>
+          <div><div class="vp-title">Économie : le point sur les marchés africains</div><div class="vp-meta">Dimanche · 10h00</div></div>
+        </div>
+        <div class="vp-item">
+          <div class="vp-thumb">🌍<div class="vp-duration">25:00</div></div>
+          <div><div class="vp-title">Reportage : les régions de Guinée à la loupe</div><div class="vp-meta">Lundi · 19h00</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="video-grid fade-in">
+      <div class="vg-card">
+        <div class="vg-thumb"><div class="vg-thumb-inner">🏛️</div><div class="vg-play"><div class="vg-play-icon">▶</div></div></div>
+        <div class="vg-body"><div class="vg-title">Discours présidentiel : les grandes orientations 2025</div><div class="vg-meta">📅 26 Fév · 👁 12K vues</div></div>
+      </div>
+      <div class="vg-card">
+        <div class="vg-thumb"><div class="vg-thumb-inner">🌿</div><div class="vg-play"><div class="vg-play-icon">▶</div></div></div>
+        <div class="vg-body"><div class="vg-title">Reportage : la beauté des forêts guinéennes</div><div class="vg-meta">📅 25 Fév · 👁 8.5K vues</div></div>
+      </div>
+      <div class="vg-card">
+        <div class="vg-thumb"><div class="vg-thumb-inner">🎺</div><div class="vg-play"><div class="vg-play-icon">▶</div></div></div>
+        <div class="vg-body"><div class="vg-title">Culture : festival de musique traditionnelle Manding</div><div class="vg-meta">📅 24 Fév · 👁 15K vues</div></div>
+      </div>
+      <div class="vg-card">
+        <div class="vg-thumb"><div class="vg-thumb-inner">💊</div><div class="vg-play"><div class="vg-play-icon">▶</div></div></div>
+        <div class="vg-body"><div class="vg-title">Santé : campagne nationale de vaccination expliquée</div><div class="vg-meta">📅 23 Fév · 👁 6.2K vues</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ À PROPOS ═══ -->
+<section id="apropos" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div>
+        <div class="section-tag">👥 Notre histoire</div>
+        <h2 class="section-title">À propos de JO TV 224</h2>
+      </div>
+    </div>
+    <div class="about-grid fade-in">
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-logo-big">
+            <span class="jo">JO</span>
+            <span class="tv">TV</span>
+            <span class="num"> 224</span>
+          </div>
+          <div class="about-tagline">Médias · Guinée · Information</div>
+          <div class="flag-mini"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+          <div class="about-values">
+            <div class="about-val"><span>🎯</span> Rigueur</div>
+            <div class="about-val"><span>⚖️</span> Impartialité</div>
+            <div class="about-val"><span>💡</span> Innovation</div>
+            <div class="about-val"><span>🤝</span> Proximité</div>
+            <div class="about-val"><span>🛡️</span> Indépendance</div>
+            <div class="about-val"><span>🇬🇳</span> Guinée 1ère</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <p class="about-lead">JO TV 224 est un <strong>média audiovisuel guinéen</strong> engagé pour une information de qualité, accessible à tous.</p>
+        <p class="about-body">Fondé à Conakry, JO TV 224 s'est rapidement imposé comme une référence de l'information en Guinée. Notre équipe de journalistes professionnels couvre chaque jour l'actualité nationale et internationale avec sérieux, impartialité et passion.</p>
+        <div class="about-mission">
+          « Notre mission : donner la parole à chaque Guinéen, informer avec vérité, et contribuer au développement démocratique de notre pays. »
+        </div>
+        <p class="about-body">Avec le chiffre 224 — indicatif téléphonique de la Guinée — dans notre nom, nous affirmons notre appartenance et notre engagement envers notre nation et son peuple.</p>
+        <a href="#contact" class="btn-primary" style="margin-top:8px;">Nous rejoindre</a>
+      </div>
+    </div>
+    <div class="team-grid fade-in" style="margin-top:80px;">
+      <div style="grid-column:1/-1;margin-bottom:8px;">
+        <div class="section-tag">Notre équipe</div>
+        <h3 class="section-title" style="font-size:32px;">Les visages de JO TV 224</h3>
+      </div>
+      <div class="team-card"><div class="team-avatar">👨‍💼</div><div class="team-name">Mamadou Kouyaté</div><div class="team-role">Directeur Général</div></div>
+      <div class="team-card"><div class="team-avatar">👩‍💻</div><div class="team-name">Fatoumata Diallo</div><div class="team-role">Rédactrice en Chef</div></div>
+      <div class="team-card"><div class="team-avatar">🎥</div><div class="team-name">Ibrahima Bah</div><div class="team-role">Directeur Technique</div></div>
+      <div class="team-card"><div class="team-avatar">📡</div><div class="team-name">Aissatou Camara</div><div class="team-role">Présentatrice Vedette</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PUBLICITÉ / PARTENARIATS ═══ -->
+<section id="publicite" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div>
+        <div class="section-tag">💼 Développez votre marque</div>
+        <h2 class="section-title">Publicité & Partenariats</h2>
+      </div>
+    </div>
+    <div class="pub-hero fade-in">
+      <div class="pub-hero-title">Touchez <span>50 000+</span> Guinéens</div>
+      <p class="pub-hero-sub">JO TV 224 offre une visibilité inégalée auprès d'une audience engagée, jeune et active. Faites rayonner votre marque sur le premier média digital de Guinée.</p>
+      <a href="#contact" class="btn-primary">Demander un devis gratuit</a>
+      <div class="pub-stats">
+        <div class="text-center"><div class="pub-stat-num">50K+</div><div class="pub-stat-label">Abonnés actifs</div></div>
+        <div class="text-center"><div class="pub-stat-num">200K+</div><div class="pub-stat-label">Vues / mois</div></div>
+        <div class="text-center"><div class="pub-stat-num">24/7</div><div class="pub-stat-label">Diffusion continue</div></div>
+        <div class="text-center"><div class="pub-stat-num">3</div><div class="pub-stat-label">Plateformes</div></div>
+      </div>
+    </div>
+    <div class="pub-offers fade-in">
+      <div class="pub-card">
+        <div class="pub-card-icon">📢</div>
+        <div class="pub-card-title">Pack Essentiel</div>
+        <div class="pub-card-desc">Idéal pour débuter et tester la puissance de JO TV 224 auprès de votre audience cible.</div>
+        <ul class="pub-card-features">
+          <li>Bandeau publicitaire site web</li>
+          <li>Post sponsorisé Facebook</li>
+          <li>Mention dans la newsletter</li>
+          <li>Rapport mensuel</li>
+        </ul>
+        <a href="#contact" class="btn-secondary" style="display:inline-flex;">Nous contacter</a>
+      </div>
+      <div class="pub-card featured">
+        <div class="pub-card-icon">🚀</div>
+        <div class="pub-card-title">Pack Premium</div>
+        <div class="pub-card-desc">Pour maximiser votre visibilité sur toutes nos plateformes et toucher un maximum de Guinéens.</div>
+        <ul class="pub-card-features">
+          <li>Spot publicitaire TV (30 sec)</li>
+          <li>Encart homepage prioritaire</li>
+          <li>3 posts Facebook sponsorisés</li>
+          <li>Mention en direct sur l'antenne</li>
+          <li>Rapport hebdomadaire détaillé</li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="display:inline-flex;">Nous contacter</a>
+      </div>
+      <div class="pub-card">
+        <div class="pub-card-icon">🌟</div>
+        <div class="pub-card-title">Partenariat Média</div>
+        <div class="pub-card-desc">Un partenariat stratégique sur-mesure pour les grandes marques et institutions.</div>
+        <ul class="pub-card-features">
+          <li>Émission co-brandée</li>
+          <li>Reportage dédié à votre marque</li>
+          <li>Visibilité cross-plateforme</li>
+          <li>Accès exclusif aux événements</li>
+          <li>Stratégie personnalisée</li>
+        </ul>
+        <a href="#contact" class="btn-secondary" style="display:inline-flex;">Nous contacter</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div>
+        <div class="section-tag">✉️ Parlons-nous</div>
+        <h2 class="section-title">Contactez-nous</h2>
+      </div>
+    </div>
+    <div class="contact-grid fade-in">
+      <div class="contact-info">
+        <h3 class="contact-info-title">Nous sommes à votre écoute</h3>
+        <p class="contact-info-desc">Pour toute question, demande d'information, proposition de reportage ou partenariat commercial, notre équipe vous répondra dans les 24 heures.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div><div class="contact-item-label">Adresse</div><div class="contact-item-value">Conakry, République de Guinée</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div><div class="contact-item-label">Téléphone</div><div class="contact-item-value">+224 XXX XXX XXX</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div><div class="contact-item-label">Email</div><div class="contact-item-value">contact@jotv224.gn</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">🕐</div>
+            <div><div class="contact-item-label">Disponibilité</div><div class="contact-item-value">Lun – Sam : 08h00 – 22h00</div></div>
+          </div>
+        </div>
+        <div class="social-links">
+          <div class="social-btn" title="Facebook">📘</div>
+          <div class="social-btn" title="YouTube">▶️</div>
+          <div class="social-btn" title="Twitter">🐦</div>
+          <div class="social-btn" title="WhatsApp">💬</div>
+          <div class="social-btn" title="Telegram">📨</div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Prénom & Nom</label>
+            <input type="text" class="form-input" placeholder="Votre nom complet">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="votre@email.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input type="tel" class="form-input" placeholder="+224 XXX XXX XXX">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sujet</label>
+            <select class="form-select form-input">
+              <option>Informations générales</option>
+              <option>Proposition de reportage</option>
+              <option>Partenariat / Publicité</option>
+              <option>Presse & Médias</option>
+              <option>Recrutement</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-input" placeholder="Écrivez votre message ici..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;">Envoyer le message ✉️</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">
+          <span class="jo">JO</span><span class="tv">TV</span><span class="num"> 224</span>
+        </div>
+        <p class="footer-desc">L'information au cœur de la Guinée. Actualités, reportages et programmes en direct, 24h/24 et 7j/7.</p>
+        <div class="footer-flag"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div>
+        <div class="footer-col-title">Rubriques</div>
+        <ul class="footer-links">
+          <li><a href="#actualites">Actualités</a></li>
+          <li><a href="#actualites">Politique</a></li>
+          <li><a href="#actualites">Économie</a></li>
+          <li><a href="#actualites">Sport</a></li>
+          <li><a href="#actualites">Culture</a></li>
+          <li><a href="#actualites">International</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">JO TV 224</div>
+        <ul class="footer-links">
+          <li><a href="#videos">Vidéos & Direct</a></li>
+          <li><a href="#apropos">À propos</a></li>
+          <li><a href="#apropos">Notre équipe</a></li>
+          <li><a href="#publicite">Partenariats</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Légal</div>
+        <ul class="footer-links">
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Politique de confidentialité</a></li>
+          <li><a href="#">Conditions d'utilisation</a></li>
+          <li><a href="#">Charte éditoriale</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 <span>JO TV 224</span>. Tous droits réservés. Conakry, République de Guinée 🇬🇳</div>
+      <div class="footer-bottom-flag"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Smooth scroll nav highlighting ──────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// ── Navbar shadow on scroll ──────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 20) {
+    nav.style.boxShadow = '0 4px 40px rgba(0,0,0,0.4)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+});
+
+// ── Scroll animations ────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── Cat tabs ─────────────────────────────────────────────
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+
+// ── Hamburger menu ───────────────────────────────────────
+function toggleMenu() {
+  const links = document.querySelector('.nav-links');
+  const live = document.querySelector('.nav-live');
+  const isOpen = links.style.display === 'flex';
+  if (isOpen) {
+    links.style.display = 'none';
+    live.style.display = 'none';
+  } else {
+    links.style.display = 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'absolute';
+    links.style.top = '68px';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = 'rgba(7,7,13,0.98)';
+    links.style.padding = '16px 24px';
+    links.style.borderTop = '1px solid rgba(255,69,0,0.2)';
+    live.style.display = 'flex';
+  }
+}
+
+// ── Form submit ──────────────────────────────────────────
+document.querySelector('.btn-primary[style*="100%"]').addEventListener('click', () => {
+  alert('Merci pour votre message ! L\'équipe de JO TV 224 vous répondra bientôt.');
+});
+</script>
+</body>
+</html>
